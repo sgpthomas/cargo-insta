@@ -12,21 +12,8 @@
 (require 'f)
 
 ;;; Code:
-
-(defun cargo-insta ()
-  "Launch cargo insta"
-  (interactive)
-
-  ;; TODO: have buffers per project
-  (let* ((new-buffer (get-buffer-create "*cargo-insta*")))
-    ;; setup new buffer
-    (with-current-buffer new-buffer
-      ;; TODO: set default directory to project root
-      (cargo-insta-mode)
-      (revert-buffer))
-
-    ;; display the buffer
-    (switch-to-buffer new-buffer)))
+(defgroup cargo-insta nil
+  "Variables for `cargo-insta'")
 
 (defvar cargo-insta-mode-map
   (let ((map (make-keymap)))
@@ -48,11 +35,28 @@
 
 (defface cargo-insta-diff-added-highlight
   '((t . (:foreground "#b8bb26")))
-  "Face for lines in a diff that have been added.")
+  "Face for lines in a diff that have been added."
+  :group 'cargo-insta)
 
 (defface cargo-insta-diff-removed-highlight
   '((t . (:foreground "#fb4933")))
-  "Face for lines in a diff that have been added.")
+  "Face for lines in a diff that have been added."
+  :group 'cargo-insta)
+
+(defun cargo-insta ()
+  "Launch cargo insta"
+  (interactive)
+
+  ;; TODO: have buffers per project
+  (let* ((new-buffer (get-buffer-create "*cargo-insta*")))
+    ;; setup new buffer
+    (with-current-buffer new-buffer
+      ;; TODO: set default directory to project root
+      (cargo-insta-mode)
+      (revert-buffer))
+
+    ;; display the buffer
+    (switch-to-buffer new-buffer)))
 
 (define-derived-mode cargo-insta-mode special-mode "Cargo Insta"
   "Major mode for Cargo insta"
@@ -88,20 +92,20 @@
         (when pending
           (magit-insert-section (magit-section)
             (magit-insert-heading "Pending Snapshots")
-            (-map #'cargo-insta--insert-snapshot-section
-                  pending)))
+            (-each #'cargo-insta--insert-snapshot-section
+              pending)))
 
         (when accepted
           (magit-insert-section (magit-section)
             (magit-insert-heading "Accepted Snapshots")
-            (-map #'cargo-insta--insert-snapshot-section
-                  accepted)))
+            (-each #'cargo-insta--insert-snapshot-section
+              accepted)))
 
         (when rejected
           (magit-insert-section (magit-section)
             (magit-insert-heading "Rejected Snapshots")
-            (-map #'cargo-insta--insert-snapshot-section
-                  rejected)))
+            (-each #'cargo-insta--insert-snapshot-section
+              rejected)))
 
         (unless (or pending accepted rejected)
           (insert "No pending snapshots"))))))
