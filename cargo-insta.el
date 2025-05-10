@@ -3,7 +3,7 @@
 ;; Copyright (C) 2024 Samuel Thomas
 
 ;; Name: cargo-insta
-;; Version: 0.1.0
+;; Version: 0.1
 ;; Author: Samuel Thomas <sgt@cs.utexas.edu>
 ;; Package-Requires: (s dash magit-section f)
 
