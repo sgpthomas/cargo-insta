@@ -2,6 +2,8 @@
 
 ;; Copyright (C) 2024 Samuel Thomas
 
+;; Name: cargo-insta
+;; Version: 0.1.0
 ;; Author: Samuel Thomas <sgt@cs.utexas.edu>
 ;; Package-Requires: (s dash magit-section f)
 
@@ -77,6 +79,7 @@
   (setq cargo-insta--rejected-snapshots nil)
   (cargo-insta--render))
 
+
 (defun cargo-insta--render ()
   "Render out the contents of `cargo-insta-snapshots' to the buffer."
   (let ((inhibit-read-only t)
@@ -92,20 +95,20 @@
         (when pending
           (magit-insert-section (magit-section)
             (magit-insert-heading "Pending Snapshots")
-            (-each #'cargo-insta--insert-snapshot-section
-              pending)))
+            (-each pending
+              #'cargo-insta--insert-snapshot-section)))
 
         (when accepted
           (magit-insert-section (magit-section)
             (magit-insert-heading "Accepted Snapshots")
-            (-each #'cargo-insta--insert-snapshot-section
-              accepted)))
+            (-each accepted
+              #'cargo-insta--insert-snapshot-section)))
 
         (when rejected
           (magit-insert-section (magit-section)
             (magit-insert-heading "Rejected Snapshots")
-            (-each #'cargo-insta--insert-snapshot-section
-              rejected)))
+            (-each rejected
+              #'cargo-insta--insert-snapshot-section)))
 
         (unless (or pending accepted rejected)
           (insert "No pending snapshots"))))))

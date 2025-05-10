@@ -1,2 +1,28 @@
 * Package for interacting with cargo-insta command line
 
+This is a very simple package to accept / reject snapshots produced by [[https://github.com/mitsuhiko/insta][=insta=]], a Rust snapshot testing library.
+
+** Installation
+
+*** Elpaca
+
+#+begin_src emacs-lisp
+(use-package cargo-insta
+  :ensure (cargo-insta :type git :host github :repo "sgpthomas/cargo-insta")
+  :defer t)
+#+end_src
+
+*** Emacs =use-package= with =:vc= keyword
+
+#+begin_src emacs-lisp
+(use-package cargo-insta
+  :vc (:url "https://github.com/sgpthomas/cargo-insta"
+       :rev :newest))
+#+end_src
+
+
+** Usage
+
+The command =cargo-insta= is the main command of this package. Either call it directly, or bind it to something convenient. This pops open a buffer that will show you any pending snapshots.
+
+Pressing =a= on a snapshot will accept it, and =r= will reject it.
